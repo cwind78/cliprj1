@@ -27,7 +27,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .active {
 	background-color: skyblue;
 	border: 0px;

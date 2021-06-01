@@ -84,7 +84,7 @@ export default {
 
 }
 </script>
-<style>
+<style scoped>
 td {
 	border: 1px solid black;
 	width: 30px;

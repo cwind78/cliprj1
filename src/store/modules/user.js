@@ -20,7 +20,7 @@ export default {
 	},
 	actions: {
 		getUserList(store, payload) { //회원 목록 조회
-			axios.get(Constant.BASE_URL + "user", {params: {name: payload.name}}) //http://localhost:8080/user?name=
+			axios.get(Constant.BASE_URL + "user/" + payload.name)
 				.then((response) => {
 					if (response.data == null) {
 						alert("조회 결과가 없습니다")
