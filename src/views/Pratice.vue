@@ -10,19 +10,27 @@
 		</div>
 		<div>
 			<button v-if="check" @click="checkArray()">Check</button>
-			<button @click="initArray()">Retry</button>
+			<button v-if="check" @click="initArray()">Retry</button>
+			<blueBtn v-on:init-btn="initArray()" v-bind:callParentMethod="callParentMethod" v-bind:btnName="btnName"></blueBtn>
 		</div>
 	</div>
 </template>
 
 <script>
+import blueBtn from '../components/form/BlueBtn'
+
 export default {
 	name: "Pratice",
+	components: {
+		'blueBtn': blueBtn
+	},
 	data: function() {
 		return {
 			tr: [],
 			td: [],
-			check: false
+			check: false,
+			callParentMethod: 'init-btn',
+			btnName: 'Retry'
 		}
 	},
 	methods: {
@@ -62,6 +70,7 @@ export default {
 			console.log(this.td.toString());
 		},
 		initArray: function() {
+			// console.log("call me")
 			this.tr = [];
 			this.td = [];
 
