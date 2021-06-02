@@ -1,6 +1,9 @@
 <template>
 	<div>
 		<div>
+			총 {{usersCnt}}건
+		</div>
+		<div>
 			<table>
 				<tr>
 					<th>Name</th>
@@ -39,23 +42,32 @@
 				<input type="text" v-model="u.date" />
 			</div>
 		</div>
+		<div>
+			<modal v-if="isModal" v-bind:msg="modalMsg">
+			</modal>
+			<button @click="openModal">Modal</button>
+		</div>
 	</div>
 </template>
 
 <script>
 import blueBtn from '../components/form/BlueBtn'
+import Modal from '../components/form/Modal'
 
 export default {
 	name: "User",
 	components: {
-		'blueBtn': blueBtn
+		'blueBtn': blueBtn,
+		'modal': Modal
 	},
 	data: function () {
 		return {
 			name: '',
 			callParentMethod: 'search-user',
 			btnName: 'Search',
-			u: {}
+			u: {},
+			isModal: false,
+			modalMsg: 'Test alert'
 		}
 	},
 	created: function() {
@@ -64,7 +76,11 @@ export default {
 	computed: {
 		users: function() {
 			//비동기 호출이라 데이터는 computed로 가져옴
-			return this.$store.state.user.users;
+			return this.$store.state.user.users
+		},
+		usersCnt: function() {
+			console.log(this.$store.getters.getUserCount)
+			return this.$store.getters.getUserCount
 		}
     },
 	methods: {
@@ -72,6 +88,9 @@ export default {
 			var param = {'name': this.name}
 			//cors 문제를 회피하기 위해 vue.config.js에 proxy 서버 설정함
 			this.users = this.$store.dispatch('user/getUserList', param)
+		},
+		openModal: function() {
+			this.isModal = !this.isModal
 		}
 	}
 }

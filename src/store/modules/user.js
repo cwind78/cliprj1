@@ -10,7 +10,7 @@ export default {
 	},
 	getters: { //computed와 유사
 		getUserCount(state) {
-			return state.users.length()
+			return state.users.length
 		}
 	},
 	mutations: {
