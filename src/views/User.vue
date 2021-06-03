@@ -4,6 +4,10 @@
 			총 {{usersCnt}}건
 		</div>
 		<div>
+			<combo v-bind:data='codes' v-on:setCode='setCode'></combo>
+			<input type="text" v-model="code" />
+		</div>
+		<div>
 			<table>
 				<tr>
 					<th>Name</th>
@@ -12,7 +16,7 @@
 					<th>Email</th>
 					<th>Date</th>
 				</tr>
-				<tr v-for='user in users' v-bind:key='user.id' @click="u=user">
+				<tr v-bind:class='{"odd-row": index%2==0, "over-row": index==overIdx, "click-row": index==clickIdx}' v-for='(user, index) in users' v-bind:key='user.id' @click="u=user; clickIdx=index" @mouseover="overIdx=index">
 					<td>{{user.name}}</td>
 					<td>{{user.id}}</td>
 					<td>{{user.pwd}}</td>
@@ -53,12 +57,14 @@
 <script>
 import blueBtn from '../components/form/BlueBtn'
 import Modal from '../components/form/Modal'
+import Combo from '../components/form/Combo'
 
 export default {
 	name: "User",
 	components: {
 		'blueBtn': blueBtn,
-		'modal': Modal
+		'modal': Modal,
+		'combo': Combo
 	},
 	data: function () {
 		return {
@@ -67,7 +73,11 @@ export default {
 			btnName: 'Search',
 			u: {},
 			isModal: false,
-			modalMsg: 'Test alert'
+			modalMsg: 'Test alert',
+			overIdx: -1,
+			clickIdx: -1,
+			codes: [{'code': '1', 'name': 'one'}, {'code': '2', 'name': 'two'}],
+			code: ''
 		}
 	},
 	created: function() {
@@ -80,7 +90,8 @@ export default {
 		},
 		usersCnt: function() {
 			console.log(this.$store.getters.getUserCount)
-			return this.$store.getters.getUserCount
+			//return this.$store.getters.getUserCount
+			return this.$store.state.user.users.length
 		}
     },
 	methods: {
@@ -91,6 +102,9 @@ export default {
 		},
 		openModal: function() {
 			this.isModal = !this.isModal
+		},
+		setCode: function(val) {
+			this.code = val
 		}
 	}
 }
@@ -108,5 +122,17 @@ table {
 div {
 	border: 1px solid red;
 	text-align: left;
+}
+
+.odd-row {
+	background-color: #e5e5e5;
+}
+
+.over-row {
+	background-color: yellow;
+}
+
+.click-row {
+	background-color: blue;
 }
 </style>
